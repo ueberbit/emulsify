@@ -1,4 +1,4 @@
-<div {% if attributes %}{{ attributes.addClass(classes) }}{% else %}class="card{% if variation %} card--{{ variation }}{% endif %}{% if limit %} card--{{ limit }}{% endif %}{% if class %} {{ class }}{% endif %}"{% endif %}>
+<div class="card{% for modifier in card_modifiers %} card--{{ modifier }}{% endfor %}{% if card_blockname %} {{ card_blockname }}__card{% endif %}">
   {% if card_img %}
     <div class="card__img">
       <img src="{{ card_img }}" />
@@ -9,20 +9,43 @@
     </div>
   {% endif %}
   {{ title_prefix }}
-  <h2 class="card__title{% if card_sub %} card__title--with-sub{% endif %}">
-    {% if card_link %}<a class="card__title-link" href="{{ card_link }}">{% endif %}
-      {{ card_title }}
-    {% if card_link %}</a>{% endif %}
-  </h2>
+  {% include "@atoms/02-text/00-headings/heading-2/heading-2.twig"
+    with {
+      "heading_2": card_title,
+      "heading_2_url": card_title_link,
+      "heading_2_blockname": card_title_blockname,
+      "heading_2_modifiers": card_title_modifiers
+    }
+  %}
   {{ title_suffix }}
   {% if card_sub %}
     <div class="card__sub">
-      {{ card_sub|raw }}
+      {% include "@atoms/02-text/text/01-paragraph.twig"
+        with {
+          "paragraph_content": card_sub,
+          "paragraph_modifiers": card_sub_modifiers
+        }
+      %}
     </div>
   {% endif %}
   {% if card_body %}
     <div class="card__body">
-      {{ card_body|raw }}
+      {% include "@atoms/02-text/text/01-paragraph.twig"
+        with {
+          "paragraph_content": card_body,
+          "paragraph_modifiers": card_body_modifiers
+        }
+      %}
     </div>
+  {% endif %}
+  {% if card_link_url %}
+    {% include "@atoms/01-links/link/link.twig"
+      with {
+        "link_blockname": card_link_blockname,
+        "link_modifiers": card_link_modifiers,
+        "link_url": card_link_url,
+        "link_content": card_link_text
+      }
+    %}
   {% endif %}
 </div>

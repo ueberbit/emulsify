@@ -1,10 +1,19 @@
-<dl>
-	<dt>Definition List</dt>
-	<dd>A number of connected items or names written or printed consecutively, typically one below the other.</dd>
-    <dt>This is a term.</dt>
-    <dd>This is the definition of that term, which both live in a <code>dl</code>.</dd>
-    <dt>Here is another term.</dt>
-    <dd>And it gets a definition too, which is this line.</dd>
-    <dt>Here is term that shares a definition with the term below.</dt>
-    <dd>And it gets a definition too, which is this line.</dd>
+{#
+/**
+ * Available variables:
+ * - list_dl_modifiers - array of modifiers to add to the base classname
+ * - list_dl_blockname - blockname prepended to the base classname
+ *
+ * - listItems - TBD
+ */
+#}
+<dl class="list-dl{% for modifier in list_dl_modifiers %} list-dl--{{ modifier }}{% endfor %}{% if list_dl_blockname %} {{ list_dl_blockname }}__list-dl{% endif %}">
+  {% for dl_item in list_dl %}
+    {% include "@atoms/03-lists/_list-item-definition.twig"
+      with {
+        "dl_term": dl_item.dl_term,
+        "dl_definition": dl_item.dl_definition,
+      }
+    %}
+  {% endfor %}
 </dl>
